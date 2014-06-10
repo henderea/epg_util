@@ -4,11 +4,9 @@ module EpgUtil
   class ExtractWorkResult
     extend Plugin
 
-    register :command, id: :work_result, parent: nil, name: 'work_result', short_desc: 'work-result SUBCOMMAND ARGS...', desc: 'operate on work results'
+    register(:command, id: :path_work_result, parent: :path, name: 'work_result', short_desc: 'work-result', desc: 'print out the path of the file for the work-result module') { puts __FILE__ }
 
-    register(:command, id: :work_result_path, parent: :work_result, name: 'path', short_desc: 'path', desc: 'print out the path of the current file') { puts __FILE__ }
-
-    register(:command, id: :work_result_extract, parent: :work_result, name: 'extract', short_desc: 'extract INPUT_FILE [OUTPUT_FILE]', desc: 'extract workflow results from a file') { |input, output = nil|
+    register(:command, id: :extract_work_result, parent: nil, name: 'extract_work_result', short_desc: 'extract-work-result INPUT_FILE [OUTPUT_FILE]', desc: 'extract workflow results from a file') { |input, output = nil|
       printing = false
       ind = 0
       file = output && File.open(output, 'r+')
