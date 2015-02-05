@@ -1,3 +1,3 @@
 module EpgUtil
-  VERSION = '1.4.0'
+  VERSION = '1.5.1'
 end

@@ -7,7 +7,7 @@ module EpgUtil
 
     register(:command, id: :path_archive, parent: :path, name: 'archive', short_desc: 'archive', desc: 'print out the path of the file for the download archive module') { puts __FILE__ }
 
-    register(:command, id: :archive, parent: nil, name: 'archive', short_desc: 'archive', desc: 'sort the provided files into sub-folders of the provided folder') { |folder, *files|
+    register(:command, id: :archive, parent: nil, name: 'archive', short_desc: 'archive folder files...', desc: 'sort the provided files into sub-folders of the provided folder') { |folder, *files|
       folder = File.expand_path(folder)
       Dir.mkdir(folder) unless Dir.exist?(folder)
       files.each { |fname|
