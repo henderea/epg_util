@@ -93,11 +93,13 @@ module EpgUtil
       table_inv.each_with_index { |v, i| max_col_widths[i] = v.map { |v2| v2.to_s.length }.max }
       sep     = max_col_widths.map { |v| '-' * (v+2) }
       sep_str = "+#{sep.join('+')}+"
+      str = ''
       table.each { |r|
-        puts sep_str
-        puts "| #{r.map.with_index { |v, i| v.to_s.center(max_col_widths[i]) }.join(' | ') } |"
+        str << "#{sep_str}\n"
+        str << "| #{r.map.with_index { |v, i| v.to_s.center(max_col_widths[i]) }.join(' | ') } |\n"
       }
-      puts sep_str
+      str << sep_str
+      puts str
     end
 
     def itr(dc_ind, sc, sc_inds, width, height)
@@ -105,7 +107,7 @@ module EpgUtil
       if dc_ind >= dcim.count
         cur = sc_inds.values.map.with_index { |v, i| v * (sc.count - (i + 1)).factorial / (sc.count - dcim.count).factorial }.inject(:+) + 1
         max = sc.count.factorial / (sc.count - dcim.count).factorial
-        print "\r\e[2K@@#{width}x#{height} => #{cur} of #{max} (#{'%.3f' % ((cur.to_f / max.to_f) * 100.0)}%)"
+        # print "\r\e[2K@@#{width}x#{height} => #{cur} of #{max} (#{'%.3f' % ((cur.to_f / max.to_f) * 100.0)}%)"
         matches = true
         sc_inds.each { |k, v|
           sci     = sc[v]
@@ -114,6 +116,7 @@ module EpgUtil
           break unless matches
         }
         if matches
+          print "@@#{width}x#{height} => #{cur} of #{max} (#{'%.3f' % ((cur.to_f / max.to_f) * 100.0)}%)"
           puts "\n#{'=' * 25}\n\n"
           print_table(to_table(sc_inds, width, height))
           puts "\n\n#{'=' * 25}"
@@ -132,19 +135,24 @@ module EpgUtil
     def run
       (1..@apps.count).each { |width|
         (1..@apps.count).each { |height|
+          while Thread.list.count >= 9
+            sleep(0.01)
+          end
 
-          print "\r\e[2K@@#{width}x#{height}"
+          Thread.start {
+            # print "\r\e[2K@@#{width}x#{height}"
 
-          count = width * height
+            count = width * height
 
-          space_connections = []
+            space_connections = []
 
-          (0...count).each { |i|
-            # space_connections[i] = [(i - 1) % count, (i + 1) % count, (i - width) % count, (i + width) % count]
-            space_connections[i] = @grid_links.map { |l| l.call(i, width, height, count) }
+            (0...count).each { |i|
+              # space_connections[i] = [(i - 1) % count, (i + 1) % count, (i - width) % count, (i + width) % count]
+              space_connections[i] = @grid_links.map { |l| l.call(i, width, height, count) }
+            }
+
+            itr(0, space_connections, {}, width, height)
           }
-
-          itr(0, space_connections, {}, width, height)
         }
       }
       puts
