@@ -24,5 +24,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'everyday-cli-utils', '~> 1.8', '>= 1.8.2'
   spec.add_dependency 'everyday-plugins', '~> 1.2'
   spec.add_dependency 'everyday_natsort', '~> 1.0', '>= 1.0.3'
-  spec.add_dependency 'rbe', '~> 4.0', '>= 4.0.10.1'
+  spec.add_dependency 'rbe', '~> 4.1', '>= 4.1.2.1'
+  spec.add_dependency 'fastimage_resize', '~> 2.0', '>= 2.0.3'
 end
