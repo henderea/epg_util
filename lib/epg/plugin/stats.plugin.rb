@@ -1,8 +1,7 @@
 require 'everyday-plugins'
 include EverydayPlugins
 require 'everyday-cli-utils'
-include EverydayCliUtils
-import :histogram, :kmeans, :maputil
+EverydayCliUtils.import :histogram, :kmeans, :maputil
 require 'io/console'
 module EpgUtil
   class Stats
