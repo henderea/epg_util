@@ -42,6 +42,7 @@ EOS
       Readline.completion_proc = ->(path) { get_suggestions(Readline.line_buffer.split(/->/, -1), data) }
       loop {
         path = Readline.readline('>> ', true)
+        exit 0 if path == '\q'
         path_pieces = path.split(/->/)
         cur_data = itr(path_pieces, data)
         if cur_data.is_a?(Array) || cur_data.is_a?(Hash)
