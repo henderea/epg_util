@@ -1,5 +1,6 @@
 require 'readline'
 require 'json'
+require 'everyday_natsort_kernel'
 require 'everyday-plugins'
 include EverydayPlugins
 module EpgUtil
@@ -38,40 +39,47 @@ EOS
       end
       data = JSON.parse(IO.read(full_filename))
       Readline.completion_append_character = nil
-      Readline.completer_word_break_characters = '>'
-      Readline.completion_proc = ->(path) { get_suggestions(Readline.line_buffer.split(/->/, -1), data) }
+      Readline.completer_word_break_characters = '> '
+      Readline.completion_proc = ->(path) { get_suggestions(Readline.line_buffer.gsub(/^\\d\s*/, '').split(/->/, -1), data) }
       loop {
         path = Readline.readline('>> ', true)
         exit 0 if path == '\q'
-        path_pieces = path.split(/->/)
-        cur_data = itr(path_pieces, data)
-        if cur_data.is_a?(Array) || cur_data.is_a?(Hash)
-          puts JSON.pretty_generate(cur_data)
+        if path =~ /\\d\s*(.*)/
+          puts get_suggestions($1.split(/->/, -1), data, true).join(', ')
         else
-          puts cur_data.inspect
+          path_pieces = path.split(/->/)
+          cur_data = itr(path_pieces, data)
+          if cur_data.is_a?(Array) || cur_data.is_a?(Hash)
+            puts JSON.pretty_generate(cur_data)
+          else
+            puts cur_data.inspect
+          end
         end
       }
     }
 
-    register(:helper, name: 'get_suggestions', parent: :json_value) { |path_pieces, data|
+    register(:helper, name: 'get_suggestions', parent: :json_value) { |path_pieces, data, print_children = false|
       if path_pieces.include?('*')
         nil
       else
         last_piece = path_pieces[-1]
         full_pieces = path_pieces[0..-2]
         cur_data = itr(full_pieces, data)
-        # path_str = (full_pieces.nil? || full_pieces.empty?) ? '' : "#{full_pieces.join('->')}->"
         if cur_data.is_a?(Array)
-          l = (0...cur_data.count).to_a.map(&:to_s)#.map { |li| "#{path_str}#{li}" }
+          l = (0...cur_data.count).to_a.map(&:to_s).natural_sort
           if last_piece.nil? || last_piece == ''
             l
+          elsif l.include?(last_piece) && print_children
+            get_suggestions(path_pieces + [nil], data)
           else
             l.select { |li| li.to_s.start_with?(last_piece) }
           end
         elsif cur_data.is_a?(Hash)
-          l = cur_data.keys#.map { |li| "#{path_str}#{li}" }
+          l = cur_data.keys.natural_sort
           if last_piece.nil? || last_piece == ''
             l
+          elsif l.include?(last_piece) && print_children
+            get_suggestions(path_pieces + [nil], data)
           else
             l.select { |li| li.to_s.start_with?(last_piece) }
           end
