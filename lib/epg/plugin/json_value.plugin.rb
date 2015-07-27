@@ -40,7 +40,38 @@ EOS
       data = JSON.parse(IO.read(full_filename))
       Readline.completion_append_character = nil
       Readline.completer_word_break_characters = '> '
-      Readline.completion_proc = ->(path) { get_suggestions(Readline.line_buffer.gsub(/^\\d\s*/, '').split(/->/, -1), data) }
+      Readline.completion_proc = ->(_) { get_suggestions(Readline.line_buffer.gsub(/^\\d\s*/, '').split(/->/, -1), data) }
+      loop {
+        path = Readline.readline('>> ', true)
+        exit 0 if path == '\q'
+        if path =~ /\\d\s*(.*)/
+          puts get_suggestions($1.split(/->/, -1), data, true).join(', ')
+        else
+          path_pieces = path.split(/->/)
+          cur_data = itr(path_pieces, data)
+          if cur_data.is_a?(Array) || cur_data.is_a?(Hash)
+            puts JSON.pretty_generate(cur_data)
+          else
+            puts cur_data.inspect
+          end
+        end
+      }
+    }
+
+    register(:command, id: :json_value_load_multi, parent: :json_value, name: 'load_multi', short_desc: 'load-multi filename', desc: 'load multiple json files and run queries on them', long_desc: <<EOS) { |*filenames|
+Load multiple JSON files and run queries on them.  Once the JSON is loaded, the user will be presented with a prompt for JSON path with tab completion.  Use the format i->a->b->c to get root[a][b][c] of file at index i
+EOS
+      missing_files = filenames.reject { |filename| File.exist?(File.expand_path(filename)) }
+      unless missing_files.nil? || missing_files.empty?
+        puts "Could not find #{missing_files.join(', ')}"
+        exit 1
+      end
+      full_filenames = filenames.map { |filename| File.expand_path(filename) }
+      data = []
+      full_filenames.each { |full_filename| data << JSON.parse(IO.read(full_filename)) }
+      Readline.completion_append_character = nil
+      Readline.completer_word_break_characters = '> '
+      Readline.completion_proc = ->(_) { get_suggestions(Readline.line_buffer.gsub(/^\\d\s*/, '').split(/->/, -1), data) }
       loop {
         path = Readline.readline('>> ', true)
         exit 0 if path == '\q'
