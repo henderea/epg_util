@@ -1,18 +1,18 @@
 PATH
   remote: .
   specs:
-    epg_util (1.5.5)
+    epg_util (1.8.4)
       everyday-cli-utils (~> 1.8, >= 1.8.2)
       everyday-plugins (~> 1.2)
       everyday_natsort (~> 1.0, >= 1.0.3)
-      rbe (~> 4.0, >= 4.0.10.1)
+      rbe (~> 4.1, >= 4.1.2.1)
 
 GEM
   remote: https://rubygems.org/
   specs:
     corefoundation (0.2.0)
       ffi
-    everyday-cli-utils (1.8.2)
+    everyday-cli-utils (1.8.5)
     everyday-plugins (1.2.0)
       everyday-cli-utils (~> 1.7)
     everyday_natsort (1.0.3)
@@ -21,12 +21,12 @@ GEM
       thor (~> 0.19)
     ffi (1.9.10)
     rake (10.4.2)
-    rbe (4.0.10.1)
+    rbe (4.2.1.1)
       everyday_natsort (~> 1.0, >= 1.0.3)
       everyday_thor_util (~> 2.0, >= 2.0.5)
-      ruby-keychain (~> 0.2, >= 0.2.1)
+      ruby-keychain (~> 0.3, >= 0.3.2)
       thor (~> 0.19)
-    ruby-keychain (0.2.1)
+    ruby-keychain (0.3.2)
       corefoundation (~> 0.2.0)
       ffi
     thor (0.19.1)
@@ -40,4 +40,4 @@ DEPENDENCIES
   rake (~> 10.4)
 
 BUNDLED WITH
-   1.10.5
+   1.10.6

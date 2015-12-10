@@ -44,8 +44,16 @@ EOS
       loop {
         path = Readline.readline('>> ', true)
         exit 0 if path == '\q'
-        if path =~ /\\d\s*(.*)/
-          puts get_suggestions($1.split(/->/, -1), data, true).join(', ')
+        if path == '\h'
+          puts <<-'EOS'
+<path>    get the value at <path>, where the path separator is '->'
+\q        exit
+\h        print this help
+\d <path> print the elements in <path>
+EOS
+        elsif path =~ /\\d\s*(.*)/
+          list = get_suggestions($1.split(/->/, -1), data, true)
+          puts list.join(', ') if list
         else
           path_pieces = path.split(/->/)
           cur_data = itr(path_pieces, data)
@@ -75,8 +83,16 @@ EOS
       loop {
         path = Readline.readline('>> ', true)
         exit 0 if path == '\q'
-        if path =~ /\\d\s*(.*)/
-          puts get_suggestions($1.split(/->/, -1), data, true).join(', ')
+        if path == '\h'
+          puts <<-'EOS'
+<path>    get the value at <path>, where the path separator is '->'
+\q        exit
+\h        print this help
+\d <path> print the elements in <path>
+EOS
+        elsif path =~ /\\d\s*(.*)/
+          list = get_suggestions($1.split(/->/, -1), data, true)
+          puts list.join(', ') if list
         else
           path_pieces = path.split(/->/)
           cur_data = itr(path_pieces, data)
