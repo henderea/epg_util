@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    epg_util (1.8.4)
-      everyday-cli-utils (~> 1.8, >= 1.8.2)
+    epg_util (1.8.6)
+      everyday-cli-utils (~> 1.8, >= 1.8.6)
       everyday-plugins (~> 1.2)
       everyday_natsort (~> 1.0, >= 1.0.3)
       rbe (~> 4.1, >= 4.1.2.1)
@@ -12,7 +12,7 @@ GEM
   specs:
     corefoundation (0.2.0)
       ffi
-    everyday-cli-utils (1.8.5)
+    everyday-cli-utils (1.8.6)
     everyday-plugins (1.2.0)
       everyday-cli-utils (~> 1.7)
     everyday_natsort (1.0.3)
@@ -40,4 +40,4 @@ DEPENDENCIES
   rake (~> 10.4)
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
