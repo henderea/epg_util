@@ -13,8 +13,8 @@ GEM
     corefoundation (0.2.0)
       ffi
     everyday-cli-utils (1.8.6)
-    everyday-plugins (1.2.0)
-      everyday-cli-utils (~> 1.7)
+    everyday-plugins (1.2.1)
+      everyday-cli-utils (~> 1.8, >= 1.8.6)
     everyday_natsort (1.0.3)
     everyday_thor_util (2.0.5)
       everyday-plugins (~> 1.2)
