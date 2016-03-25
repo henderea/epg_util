@@ -19,7 +19,7 @@ module EpgUtil
         i   = 0
         begin
           begin
-            val = gets.chomp
+            val = $stdin.gets.chomp
             if val.length > 0
               data[i] = val.to_f
               i       += 1
