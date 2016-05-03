@@ -11,12 +11,14 @@ module EpgUtil
       folder = File.expand_path(folder)
       Dir.mkdir(folder) unless Dir.exist?(folder)
       files.each { |fname|
-        first_char = fname[0].downcase
-        dir_name = first_char =~ /[a-z]/ ? first_char : '#'
-        dir_name = File.expand_path(dir_name, folder)
-        Dir.mkdir(dir_name) unless Dir.exist?(dir_name)
         file = File.expand_path(fname)
-        FileUtils.mv file, File.expand_path(fname, dir_name), verbose: true, noop: options[:noop]
+        if File.exist?(file)
+          first_char = fname[0].downcase
+          dir_name = first_char =~ /[a-z]/ ? first_char : '#'
+          dir_name = File.expand_path(dir_name, folder)
+          Dir.mkdir(dir_name) unless Dir.exist?(dir_name)
+          FileUtils.mv file, File.expand_path(fname, dir_name), verbose: true, noop: options[:noop]
+        end
       }
     }
 
