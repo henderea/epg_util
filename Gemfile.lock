@@ -21,7 +21,7 @@ GEM
       thor (~> 0.19)
     ffi (1.9.14)
     rake (11.3.0)
-    rbe (4.4.0)
+    rbe (4.4.1)
       everyday_natsort (~> 1.0, >= 1.0.3)
       everyday_thor_util (~> 2.0, >= 2.0.5)
       ruby-keychain (~> 0.3, >= 0.3.2)
@@ -40,4 +40,4 @@ DEPENDENCIES
   rake
 
 BUNDLED WITH
-   1.13.5
+   1.13.6
