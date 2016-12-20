@@ -17,11 +17,12 @@ module EpgUtil
           dir_name = first_char =~ /[a-z]/ ? first_char : '#'
           dir_name = File.expand_path(dir_name, folder)
           Dir.mkdir(dir_name) unless Dir.exist?(dir_name)
-          FileUtils.mv file, File.expand_path(fname, dir_name), verbose: true, noop: options[:noop]
+          FileUtils.mv file, File.expand_path(fname, dir_name), verbose: !options[:silent], noop: options[:noop]
         end
       }
     }
 
     register :flag, name: :noop, parent: :archive, aliases: %w(-n), type: :boolean, desc: 'don\'t actually do the move'
+    register :flag, name: :silent, parent: :archive, aliases: %w(-s), type: :boolean, desc: 'disable verbose mode'
   end
 end
