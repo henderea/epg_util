@@ -24,5 +24,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'everyday-cli-utils', '~> 1.8', '>= 1.8.7.1'
   spec.add_dependency 'everyday-plugins', '~> 1.2', '>= 1.2.1'
   spec.add_dependency 'everyday_natsort', '~> 1.0', '>= 1.0.3'
-  spec.add_dependency 'rbe', '~> 4.5', '>= 4.5.0'
+  spec.add_dependency 'rbe', '~> 5.0', '>= 5.0.0'
 end
