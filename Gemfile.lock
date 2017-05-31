@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    epg_util (1.8.9.2)
+    epg_util (1.9.0)
       everyday-cli-utils (~> 1.8, >= 1.8.7.1)
       everyday-plugins (~> 1.2, >= 1.2.1)
       everyday_natsort (~> 1.0, >= 1.0.3)
@@ -40,4 +40,4 @@ DEPENDENCIES
   rake
 
 BUNDLED WITH
-   1.14.6
+   1.15.0
