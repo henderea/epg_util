@@ -108,12 +108,10 @@ module EpgUtil
         cur = sc_inds.values.map.with_index { |v, i| v * (sc.count - (i + 1)).factorial / (sc.count - dcim.count).factorial }.inject(:+) + 1
         max = sc.count.factorial / (sc.count - dcim.count).factorial
         # print "\r\e[2K@@#{width}x#{height} => #{cur} of #{max} (#{'%.3f' % ((cur.to_f / max.to_f) * 100.0)}%)"
-        matches = true
-        sc_inds.each { |k, v|
+        matches = sc_inds.all? { |k, v|
           sci     = sc[v]
           dci     = @apps[k].connections
-          matches = dci.all? { |k2| sci.include?(sc_inds[k2]) }
-          break unless matches
+          dci.all? { |k2| sci.include?(sc_inds[k2]) }
         }
         if matches
           print "@@#{width}x#{height} => #{cur} of #{max} (#{'%.3f' % ((cur.to_f / max.to_f) * 100.0)}%)"
@@ -135,24 +133,15 @@ module EpgUtil
     def run
       (1..@apps.count).each { |width|
         (1..@apps.count).each { |height|
-          while Thread.list.count >= 9
-            sleep(0.01)
-          end
+          count = width * height
 
-          Thread.start {
-            # print "\r\e[2K@@#{width}x#{height}"
+          space_connections = []
 
-            count = width * height
-
-            space_connections = []
-
-            (0...count).each { |i|
-              # space_connections[i] = [(i - 1) % count, (i + 1) % count, (i - width) % count, (i + width) % count]
-              space_connections[i] = @grid_links.map { |l| l.call(i, width, height, count) }
-            }
-
-            itr(0, space_connections, {}, width, height)
+          (0...count).each { |i|
+            space_connections[i] = @grid_links.map { |l| l.call(i, width, height, count) }
           }
+
+          itr(0, space_connections, {}, width, height)
         }
       }
       puts
