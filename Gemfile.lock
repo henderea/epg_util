@@ -21,7 +21,7 @@ GEM
       thor (~> 0.19)
     ffi (1.9.18)
     rake (12.0.0)
-    rbe (5.0.2)
+    rbe (5.1.0)
       everyday_natsort (~> 1.0, >= 1.0.3)
       everyday_thor_util (~> 2.0, >= 2.0.7)
       ruby-keychain (~> 0.3, >= 0.3.2)
