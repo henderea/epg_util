@@ -19,5 +19,6 @@ tmp
 *.o
 *.a
 mkmf.log
+.vscode
 
 /.idea/

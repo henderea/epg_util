@@ -3,7 +3,7 @@ require 'socket'
 require 'everyday-plugins'
 include EverydayPlugins
 module EpgUtil
-  class ExtractWorkResult
+  class SudoSinatra
     extend Plugin
 
     register(:command, id: :path_sudo_sinatra, parent: :path, name: 'sudo_sinatra', short_desc: 'sudo-sinatra', desc: 'print out the path of the file for the sudo-sinatra module') { puts __FILE__ }
